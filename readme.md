@@ -2,27 +2,29 @@
 
 This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](link-to-arxiv-paper) with an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf).
 
-We provide the code to reproduce most of the experiments in the paper. We recommend running all experiments on GPU.  
-
 **If you are interested in using the proposed algorithm in your projects please refer to the instructions [here](./documentation.md).**
 
+Below we provide the code and instructions to reproduce most of the experiments in the paper. We recommend running all experiments on GPU.  
+
+
+
+
+### List of Experiments
+- [Nested Ellipses](#ellipses)
+- [Barycenter of Continuous Measures](#continuous-measures)
+- [Distribution Matching](#matching)
+- [k-Means](#k-means)
+- [Sinkhorn Propagation](#propagation)
+
+
 ### Dependencies
-The only core dependencies are:
+The core dependencies are:
 - [PyTorch](https://pytorch.org/)
 - [Matplotlib](https://matplotlib.org/)
 
 For some experiments we also have the following additional dependencies:
 - [Folium](https://python-visualization.github.io/folium/)
 - [MNIST](link)
-
-
-### List of Experiments
-Below we describe how to reproduce the experiments in the original paper:
-- [Nested Ellipses](#ellipses)
-- [Barycenter of Continuous Measures](#continuous-measures)
-- [Distribution Matching](#matching)
-- [k-Means](#k-means)
-- [Sinkhorn Propagation](#propagation)
 
 
 <a name='ellipses'></a>
