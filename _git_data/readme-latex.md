@@ -111,16 +111,18 @@ We test the proposed algorithm on a k-means clustering experiment. We consider a
 </p>
 
 We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [website](link))) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+
 $$
 \sum_{(v,u)\in\mathcal{V}} \omega_{uv}~\mathsf{S}_\varepsilon(\rho_v,\rho_u)
 $$
+
 over the set $\{\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2) | v\in\mathcal{V}_0\}$ with: $\mathcal{V}_0\subset\mathcal{V}$ the subset of stations with missing measurements, $G = (\mathcal{V},\mathcal{E})$ the whole graph of the stations network, $\omega_{uv}$ a weight inversely proportional to the geographical distance between two vertices/stations $u,v\in\mathcal{V}$. The variable $\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2)$ denotes the distribution of measurements at station $v$ of daily temperature and atmospheric pressure over one year. This is a generalization of the barycenter problem. From the total $|\mathcal{V}|$=115, we randomly select 10%, 20% or 30% to be available stations, and use the proposed algorithm to propagate their measurements to the remaining “missing” ones. We compare our approach (FW) with the Dirichlet (DR) baseline in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf) in terms of the error $d(C_T,\hat C)$ between the covariance matrix $C_T$ of the  ground truth distribution and that of the predicted one. Here $d(A,B) = \|\log(A^{-1/2} B A^{-1/2})\|$ is the geodesic distance on the cone of positive definite matrices. In the figures above we qualitatively report the improvement $\Delta = d(C_T,C_{DR}) - d(C_T,C_{FW})$ of our method on individual stations: a higher color intensity corresponds to a wider gap in our favor between prediction errors, from light green $(\Delta\sim 0)$ to red $(\Delta\sim 2)$. Our approach tends to propagate the distributions to missing locations with higher accuracy.
 
 **Run:**
 ```sh
 \$ python experiments/propagation.py
 ```
-
+\$
 **Output** in folder `out/propagation`
 
 
