@@ -1,21 +1,23 @@
 
-#from tests.testBarycenter import *
 
-from tests.testGridBarycenter import *
+from tests.testDistribution import *
+from tests.testBarycenter import *
+
+# from tests.testGridBarycenter import *
 
 #from tests.test_sinkhorn import test_repeat_support, compare_same_support_increase
 #from testPropagator import *
-from testPropagator_k_neighbour_per_vertex import *
+# from testPropagator_k_neighbour_per_vertex import *
 
-from utils.load_meteodata_debug import *
+# from utils.load_meteodata_debug import *
 
-from tests.testKMeans import testKMeans
+# from tests.testKMeans import testKMeans
 import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 
-# testDistribution()
+# testDistributions()
 #
-# testBarycenter()
+testBarycenter()
 #
 # compareSinks()
 #
@@ -39,7 +41,7 @@ torch.set_default_tensor_type(torch.DoubleTensor)
 
 # testGaussiane()
 
-testPropagator()
+# testPropagator()
 
 # testPropagatorMap()
 

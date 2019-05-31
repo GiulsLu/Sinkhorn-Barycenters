@@ -122,7 +122,7 @@ over the set $\{\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2) | v\in\mathcal{V}_0\}$ wi
 ```sh
 \$ python experiments/propagation.py
 ```
-\$
+
 **Output** in folder `out/propagation`
 
 

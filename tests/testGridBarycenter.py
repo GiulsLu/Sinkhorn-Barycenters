@@ -6,18 +6,10 @@
 import torch
 
 import numpy as np
-import matplotlib
-# matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-#from utils_glob_divergences.sinkhorn_balanced_simple import *
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
-
 from utils.plot_utils import plot
 
 from Distribution.Distribution import Distribution
-
 from Barycenter.GridBarycenter import GridBarycenter
 
 import time

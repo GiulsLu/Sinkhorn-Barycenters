@@ -321,8 +321,10 @@ class Barycenter:
 
     # "Virtual" method for gradient minimization w.r.t. z
     def _argminGradient(self,potentials_distributions,potentials_bary_sym):
-        warnings.warn("You are using a 'virtual' argminGradient method. This is doing nothing")
-        return torch.randn(self.full_support[0,:].size(0),1)
+        # warnings.warn("You are using a 'virtual' argminGradient method. This is doing nothing")
+        raise Exception("You are using a 'virtual' argminGradient method. This is doing nothing")
+        # return torch.randn(self.full_support[0,:].size(0),1)
+        return None
 
     def currentRho(self):
         return 1/(1 + torch.tensor([float(self.current_iteration)]).pow(1).item() )
