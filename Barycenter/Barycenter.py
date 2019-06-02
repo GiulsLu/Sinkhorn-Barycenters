@@ -7,7 +7,7 @@ import torch
 
 
 from utils.matrix_utils import dist_matrix
-from utils.sinkhorn import lse
+from utils.sinkhorn_utils import lse
 
 from Distribution.Distribution import Distribution
 

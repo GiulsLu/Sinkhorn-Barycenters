@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def pre_histogram(points, weights):
+def pre_histogram(points, _weights, thresh=0):
+    weights = torch.clone(_weights)
+    weights[weights <= thresh] = 0
+
     n = points.shape[0]
     x = []
     y = []
@@ -14,15 +17,10 @@ def pre_histogram(points, weights):
     return np.array(x), np.array(y), weights.reshape(weights.shape[0])
 
 
-def plot(point, wei, bins=50, thresh=0):
-    tmp_plot = torch.clone(wei)
-    tmp_plot[tmp_plot<=thresh] = 0
-
-    xb, yb, wb = pre_histogram(point, tmp_plot)
-    # plt.figure()
+def plot(point, weights, bins=50, thresh=0):
+    xb, yb, wb = pre_histogram(point, weights, thresh=thresh)
     plt.hist2d(xb, yb, bins=[bins, bins], weights=wb)
     return xb, yb
-
 
 
 def plotd(d, bins=50, thresh=0):

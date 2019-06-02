@@ -128,6 +128,6 @@ over the set <img alt="$\{\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2) | v\in\mathcal{
 
 ## References
 
-- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](our)
+- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](https://arxiv.org/pdf/1905.13194.pdf) arXiv preprint arxiv:1905.13194, 2019
 - J. Feydy, T. Séjourné, F.X. Vialard, S.I. Amari, A. Trouvé, G. Peyré. [_Interpolating between optimal transport and mmd using sinkhorn divergences._](https://arxiv.org/pdf/1810.08278.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2019.
 - A. Genevay, G. Peyré, M. Cuturi. [_Learning generative models with sinkhorndivergences._](https://arxiv.org/pdf/1706.00292.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2018.

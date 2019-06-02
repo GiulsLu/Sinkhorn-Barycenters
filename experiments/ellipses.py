@@ -1,5 +1,6 @@
 
 import torch
+torch.set_default_tensor_type(torch.DoubleTensor)
 
 import matplotlib
 matplotlib.use("TkAgg")
@@ -62,8 +63,7 @@ grid_step = 50
 support_budget = total_iter + 100
 
 bary = GridBarycenter(distributions, init_bary, support_budget = support_budget,\
-                      grid_step = grid_step, eps=eps,\
-                      sinkhorn_n_itr=100,sinkhorn_tol=1e-3)
+                      grid_step = grid_step, eps=eps)
 
 save_every_n_iter = 1
 num_fw_steps = 10

@@ -1,6 +1,6 @@
 # Free-Support Sinkhorn Barycenters
 
-This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](link-to-arxiv-paper) with an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf).
+This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](https://arxiv.org/pdf/1905.13194.pdf) with an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf).
 
 **If you are interested in using the proposed algorithm in your projects please refer to the instructions [here](./documentation.md).**
 
@@ -23,8 +23,9 @@ The core dependencies are:
 - [Matplotlib](https://matplotlib.org/)
 
 For some experiments we also have the following additional dependencies:
+- [NumPy](https://www.numpy.org/)
+- [Pillow](https://pillow.readthedocs.io/en/stable/index.html)
 - [Folium](https://python-visualization.github.io/folium/)
-- [MNIST](link)
 
 
 <a name='ellipses'></a>
@@ -46,7 +47,7 @@ $ python experiments/ellipses.py
 **Output** in folder `out/ellipses`
 
 <a name='continuous-measures'></a>
-## Continuous Measures: Barycenter of Gaussian Distributions 
+## Continuous Measures: Barycenter of Gaussian Distributions (Coming Soon :wrench:) 
 
 <p>
 <img align='left' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/gauss1.png" width="20%">
@@ -103,31 +104,34 @@ $ python experiments/kmeans.py
 
 **Output** in folder `out/kmeans`
 
+
+
 <a name='propagation'></a>
-## Sinkhorn Propagation
+## Sinkhorn Propagation (Coming Soon :wrench:)
 
 <p align='center'>
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-30.png" width="25%">
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-30.png" width="25%">
 </p>
 
-We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [website](link))) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
-$$\sum_{(v,u)\in\mathcal{V}} \omega_{uv}\mathcal{S}(\rho_v,\rho_u),$$
-over the set `missing` with: `missing` the subset of stations with missing measurements, `missing` the whole graph of the stations network, `missing` a weight inversely proportional to the geographical distance between two vertices/stations `missing`. The variable `missing` denotes the distribution of measurements at station `missing` of daily temperature and atmospheric pressure over one year. This is a generalization of the barycenter problem. From the total `missing`, we randomly select 10%, 20% or 30% to be available stations, and use the proposed algorithm to propagate their measurements to the remaining “missing” ones. We compare our approach (FW) with the Dirichlet (DR) baseline in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf) in terms of the error `missing` between the covariance matrix `missing` of the  ground truth distribution and that of the predicted one. Here `missing` is the geodesic distance on the cone of positive definite matrices. In the figure we qualitatively report the improvement `missing` of our method on individual stations: a higher color intensity corresponds to a wider gap in our favor between prediction errors, from light green `missing` to red `missing`. Our approach tends to propagate the distributions to missing locations with higher accuracy.
+We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](ftp://ftp.ncdc.noaa.gov/pub/data/gsod/2012/))) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+
+<p align="center"><img alt="$$&#10;\sum_{(v,u)\in\mathcal{V}} \omega_{uv}~\mathsf{S}_\varepsilon(\rho_v,\rho_u)&#10;$$" src="./_git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" valign=0.0px width="150.73620044999998pt" height="40.548151049999994pt"/></p>
+
+over the set <img alt="$\{\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2) | v\in\mathcal{V}_0\}$" src="./_git_data/svgs/391a77d97e59f4dd9addb721b100aafd.svg" valign=-4.383446099999994px width="166.18759905pt" height="18.538702049999998pt"/> with: <img alt="$\mathcal{V}_0\subset\mathcal{V}$" src="./_git_data/svgs/bfb0700e6838201d41a064d16059b2ad.svg" valign=-2.4657286499999893px width="50.789958449999986pt" height="13.698590399999999pt"/> the subset of stations with missing measurements, <img alt="$G = (\mathcal{V},\mathcal{E})$" src="./_git_data/svgs/b2b3927a88f310b4bfe12b3ba87cc443.svg" valign=-4.109589000000009px width="76.50444284999999pt" height="16.438356pt"/> the whole graph of the stations network, <img alt="$\omega_{uv}$" src="./_git_data/svgs/0f8cb2a808663d1801aeb4dae8ebe347.svg" valign=-2.4657286499999893px width="24.992543399999988pt" height="9.54335085pt"/> a weight inversely proportional to the geographical distance between two vertices/stations <img alt="$u,v\in\mathcal{V}$" src="./_git_data/svgs/4e1127b951d3a091bef7c89c4eed81ae.svg" valign=-3.196350299999991px width="56.789866649999986pt" height="14.42921205pt"/>. The variable <img alt="$\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2)$" src="./_git_data/svgs/36cba46e9101d17a14f9e8de4fe7774b.svg" valign=-4.383446099999994px width="99.08638079999999pt" height="18.538702049999998pt"/> denotes the distribution of measurements at station <img alt="$v$" src="./_git_data/svgs/6c4adbc36120d62b98deef2a20d5d303.svg" valign=0.0px width="8.55786029999999pt" height="7.0776222pt"/> of daily temperature and atmospheric pressure over one year. This is a generalization of the barycenter problem. From the total <img alt="$|\mathcal{V}|$" src="./_git_data/svgs/d63ce73b5e521a58add11bec71b45364.svg" valign=-4.109589000000009px width="20.55717839999999pt" height="16.438356pt"/>=115, we randomly select 10%, 20% or 30% to be available stations, and use the proposed algorithm to propagate their measurements to the remaining “missing” ones. We compare our approach (FW) with the Dirichlet (DR) baseline in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf) in terms of the error <img alt="$d(C_T,\hat C)$" src="./_git_data/svgs/41743dfa72e5c4b72ebc8451ff35d059.svg" valign=-4.109589000000006px width="63.67635944999999pt" height="19.68035685pt"/> between the covariance matrix <img alt="$C_T$" src="./_git_data/svgs/7e0cae7fd38b427ac706ff18bbb4ecee.svg" valign=-2.4657286499999893px width="21.28256789999999pt" height="13.698590399999999pt"/> of the  ground truth distribution and that of the predicted one. Here <img alt="$d(A,B) = \|\log(A^{-1/2} B A^{-1/2})\|$" src="./_git_data/svgs/5cc0d96242fd7f04e8f753a57fb0bb15.svg" valign=-4.109588999999997px width="229.20687569999996pt" height="18.7050765pt"/> is the geodesic distance on the cone of positive definite matrices. In the figures above we qualitatively report the improvement <img alt="$\Delta = d(C_T,C_{DR}) - d(C_T,C_{FW})$" src="./_git_data/svgs/f68b383e11f7d98852f8dfe0e354edd2.svg" valign=-4.109589000000009px width="227.65502264999995pt" height="16.438356pt"/> of our method on individual stations: a higher color intensity corresponds to a wider gap in our favor between prediction errors, from light green <img alt="$(\Delta\sim 0)$" src="./_git_data/svgs/46134ebe19fd6d202e5952c6474c0c9b.svg" valign=-4.109589000000009px width="56.62094624999999pt" height="16.438356pt"/> to red <img alt="$(\Delta\sim 2)$" src="./_git_data/svgs/97ca6c52e2d299e85d1ff0f791376b63.svg" valign=-4.109589000000009px width="56.62094624999999pt" height="16.438356pt"/>. Our approach tends to propagate the distributions to missing locations with higher accuracy.
 
 **Run:**
 ```sh
-$ python experiments/propagation.py
+\$ python experiments/propagation.py
 ```
 
 **Output** in folder `out/propagation`
 
 
 
-
 ## References
 
-- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](our)
+- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](https://arxiv.org/pdf/1905.13194.pdf) arXiv preprint arxiv:1905.13194, 2019
 - J. Feydy, T. Séjourné, F.X. Vialard, S.I. Amari, A. Trouvé, G. Peyré. [_Interpolating between optimal transport and mmd using sinkhorn divergences._](https://arxiv.org/pdf/1810.08278.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2019.
 - A. Genevay, G. Peyré, M. Cuturi. [_Learning generative models with sinkhorndivergences._](https://arxiv.org/pdf/1706.00292.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2018.
