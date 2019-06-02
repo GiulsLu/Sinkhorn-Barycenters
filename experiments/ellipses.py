@@ -11,12 +11,7 @@ import pickle
 import os
 import sys
 
-
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + '..' + os.path.sep + 'common')
-
 script_path = os.path.dirname(os.path.abspath(__file__))
-# data_path = os.path.join(script_path, '..', 'data', 'ellipses', 'ellipses.pckl')
-
 sys.path.append(os.path.join(script_path,'..'))
 
 from utils.plot_utils import plot
