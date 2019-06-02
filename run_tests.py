@@ -2,8 +2,7 @@
 
 from tests.testDistribution import *
 from tests.testBarycenter import *
-
-# from tests.testGridBarycenter import *
+from tests.testGridBarycenter import *
 
 #from tests.test_sinkhorn import test_repeat_support, compare_same_support_increase
 #from testPropagator import *
@@ -18,6 +17,9 @@ torch.set_default_tensor_type(torch.DoubleTensor)
 testDistributions()
 testBarycenter()
 testFW()
+
+testGridBarycenter()
+testFirstFW()
 
 #
 # compareSinks()
