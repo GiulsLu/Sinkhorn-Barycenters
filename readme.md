@@ -110,12 +110,12 @@ $ python experiments/kmeans.py
 ## Sinkhorn Propagation (Coming Soon :wrench:)
 
 <p align='center'>
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./data/git_images/propagation-30.png" width="25%">
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="./_git_data/git_images/propagation-30.png" width="25%">
 </p>
 
-We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](ftp://ftp.ncdc.noaa.gov/pub/data/gsod/2012/))) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
 
 <p align="center"><img alt="$$&#10;\sum_{(v,u)\in\mathcal{V}} \omega_{uv}~\mathsf{S}_\varepsilon(\rho_v,\rho_u)&#10;$$" src="./_git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" valign=0.0px width="150.73620044999998pt" height="40.548151049999994pt"/></p>
 
@@ -123,7 +123,7 @@ over the set <img alt="$\{\rho_v\in\mathcal{M}_1^+(\mathbb{R}^2) | v\in\mathcal{
 
 **Run:**
 ```sh
-\$ python experiments/propagation.py
+$ python experiments/propagation.py
 ```
 
 **Output** in folder `out/propagation`
