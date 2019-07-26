@@ -11,10 +11,10 @@ Below we provide the code and instructions to reproduce most of the experiments 
 
 ### List of Experiments
 - [Nested Ellipses](#ellipses)
-- [Barycenter of Continuous Measures](#continuous-measures)
+- [Barycenter of Continuous Measures](#continuous-measures)(Coming soon :wrench:)
 - [Distribution Matching](#matching)
 - [k-Means](#k-means)
-- [Sinkhorn Propagation](#propagation)
+- [Sinkhorn Propagation](#propagation)(Coming soon :wrench:)
 
 
 ### Dependencies
