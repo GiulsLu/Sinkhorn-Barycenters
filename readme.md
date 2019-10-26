@@ -46,8 +46,7 @@ $ python experiments/ellipses.py
 
 **Output** in folder `out/ellipses`
 
-<a name='continuous-measures'></a>
-
+## Continuous Measures: Barycenter of Gaussian Distributions (Coming Soonz) 
 
 <p>
 <img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss1.png" width="20%">
