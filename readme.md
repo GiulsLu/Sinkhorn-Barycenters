@@ -32,12 +32,12 @@ For some experiments we also have the following additional dependencies:
 ## A Classic: Barycenter of Nested Ellipes
 
 
-<img align='right' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/ellipses.png" width="20%">
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/ellipses.png" width="20%">
 
 
 We compute the barycenter of 30 randomly generated nested ellipses on a 50 × 50 pixels image, similarly to [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf). We interpret each image as a probability distribution in 2D. The cost matrix is given by the squared Euclidean distances between pixels. The fiture reports 8 samples of the input ellipses (all examples can be found in the folder `data/ellipses` and the barycenter obtained with the proposed algorithm in the middle. It shows qualitatively that our approach captures key geometric properties of the input measures.
 
-<img align='right' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/nested_ellipses.gif" width="20%">
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/nested_ellipses.gif" width="20%">
 
 **Run:** 
 ```sh
@@ -50,10 +50,10 @@ $ python experiments/ellipses.py
 ## Continuous Measures: Barycenter of Gaussian Distributions (Coming Soon :wrench:) 
 
 <p>
-<img align='left' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss1.png" width="20%">
+<img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss1.png" width="20%">
 <p>
 <p>
-<img align='left' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss2.png" width="20%">
+<img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss2.png" width="20%">
 </p>
 
 We compute the barycenter of 5 Gaussian distributions with mean and covariance matrix randomly generated. We apply to empirical measures obtained by sampling n = 500 points from each one. Since the (Wasserstein) barycenter of Gaussian distributions can be estimated accurately (see [(Agueh and Carlier 2011)](https://www.ceremade.dauphine.fr/~carlier/AC_bary_Aug11_10.pdf)), in the figure we report both the output of the proposed algorithm (as a scatter plot) and the true Wasserstein barycenter (as level sets of its density). We observe that our estimator recovers both the mean and covariance of the target barycenter. 
@@ -73,8 +73,8 @@ Instructions for additional experiments and parameters can be found directly in 
 ## Distribution Matching
 
 
-<img align='right' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/cheetah.gif" width="30%">
-<img align='right' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/cheetah_orig.png" width="20%">
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/cheetah.gif" width="30%">
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/cheetah_orig.png" width="20%">
 
 
 
@@ -93,7 +93,7 @@ The code can be run with any image by passing the path to the desired image as a
 <a name='k-means'></a>
 ## Sinkhorn k-Means Clustering 
 
-<img align='left' style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/kmeans.png" width="30%">
+<img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/kmeans.png" width="30%">
 
 We test the proposed algorithm on a k-means clustering experiment. We consider a subset of 500 random images from the [MNIST dataset](http://yann.lecun.com/exdb/mnist/). Each image is suitably normalized to be interpreted as a probability distribution on the grid of 28 × 28 pixels with values scaled between 0 and 1. We initialize 20 centroids according to the [k-means++](https://theory.stanford.edu/~sergei/papers/kMeansPP-soda.pdf) strategy. The figure deipcts the corresponding 20 centroids obtained throughout this process. We see that the structure of the digits is successfully detected, recovering also minor details (e.g. note the difference between the 2 centroids).
 
@@ -110,9 +110,9 @@ $ python experiments/kmeans.py
 ## Sinkhorn Propagation (Coming Soon :wrench:)
 
 <p align='center'>
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-30.png" width="25%">
+<img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-30.png" width="25%">
 </p>
 
 We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
