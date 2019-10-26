@@ -34,7 +34,6 @@ For some experiments we also have the following additional dependencies:
 
 <img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/ellipses.png" width="20%">
 
-<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" width="20%">
 
 We compute the barycenter of 30 randomly generated nested ellipses on a 50 × 50 pixels image, similarly to [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf). We interpret each image as a probability distribution in 2D. The cost matrix is given by the squared Euclidean distances between pixels. The fiture reports 8 samples of the input ellipses (all examples can be found in the folder `data/ellipses` and the barycenter obtained with the proposed algorithm in the middle. It shows qualitatively that our approach captures key geometric properties of the input measures.
 
@@ -114,6 +113,9 @@ $ python experiments/kmeans.py
 <img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-20.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-30.png" width="25%">
 </p>
+
+
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" width="20%">
 
 We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by “propagating” measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
 
