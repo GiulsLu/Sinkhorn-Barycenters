@@ -34,6 +34,7 @@ For some experiments we also have the following additional dependencies:
 
 <img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/ellipses.png" width="20%">
 
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" width="20%">
 
 We compute the barycenter of 30 randomly generated nested ellipses on a 50 × 50 pixels image, similarly to [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf). We interpret each image as a probability distribution in 2D. The cost matrix is given by the squared Euclidean distances between pixels. The fiture reports 8 samples of the input ellipses (all examples can be found in the folder `data/ellipses` and the barycenter obtained with the proposed algorithm in the middle. It shows qualitatively that our approach captures key geometric properties of the input measures.
 
