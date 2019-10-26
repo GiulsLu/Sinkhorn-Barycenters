@@ -115,9 +115,11 @@ $ python experiments/kmeans.py
 </p>
 
 
-<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" width="20%">
 
-We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by "propagating" measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by *propagating* measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+
+
+<img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" width="20%">
 
 <img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/svgs/aa468d0e2371e0652a7391f0c74cac50.svg" valign=0.0px width="150.73620044999998pt" height="40.548151049999994pt"/>
 
