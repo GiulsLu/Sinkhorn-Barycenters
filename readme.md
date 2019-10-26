@@ -1,6 +1,11 @@
 # Free-Support Sinkhorn Barycenters
 
-This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](https://arxiv.org/pdf/1905.13194.pdf) with an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf).
+This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](https://arxiv.org/pdf/1905.13194.pdf) 
+by [Giulia Luise](https://giulslu.github.io), [Saverio Salzo](https://scholar.google.it/citations?user=zocrDQkAAAAJ&hl=en), [Massimiliano Pontil]() and [Carlo Ciliberto](https://cciliber.github.io) 
+published at [Neural Information Processing Systems (NeurIPS) 2019](https://neurips.cc/), by providing an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf). 
+
+Slides can be found [here](https://giulslu.github.io/Sinkhorn-Barycenters/slides/sinkhorn-barycenters-via-frank-wolfe.pdf).
+
 
 **If you are interested in using the proposed algorithm in your projects please refer to the instructions [here](./documentation.md).**
 
@@ -11,10 +16,10 @@ Below we provide the code and instructions to reproduce most of the experiments 
 
 ### List of Experiments
 - [Nested Ellipses](#ellipses)
-- [Barycenter of Continuous Measures](#continuous-measures)(Coming soon :wrench:)
+- [Barycenter of Continuous Measures](#continuous-measures)(Coming soon)
 - [Distribution Matching](#matching)
 - [k-Means](#k-means)
-- [Sinkhorn Propagation](#propagation)(Coming soon :wrench:)
+- [Sinkhorn Propagation](#propagation)(Coming soon)
 
 
 ### Dependencies
@@ -106,7 +111,7 @@ $ python experiments/kmeans.py
 
 
 <a name='propagation'></a>
-## Sinkhorn Propagation (Coming Soon :wrench:)
+## Sinkhorn Propagation (Coming Soon)
 
 <p align='center'>
 <img style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/propagation-10.png" width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -137,6 +142,6 @@ $ python experiments/propagation.py
 
 ## References
 
-- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](https://arxiv.org/pdf/1905.13194.pdf) arXiv preprint arxiv:1905.13194, 2019
+- **(this work)** G. Luise, S. Salzo, M. Pontil, C. Ciliberto. [_Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm_](https://arxiv.org/pdf/1905.13194.pdf) Neural Information Processing Systems (NeurIPS), 2019.
 - J. Feydy, T. Séjourné, F.X. Vialard, S.I. Amari, A. Trouvé, G. Peyré. [_Interpolating between optimal transport and mmd using sinkhorn divergences._](https://arxiv.org/pdf/1810.08278.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2019.
 - A. Genevay, G. Peyré, M. Cuturi. [_Learning generative models with sinkhorndivergences._](https://arxiv.org/pdf/1706.00292.pdf) International Conference on Artificial Intelligence and Statistics (AIStats), 2018.
