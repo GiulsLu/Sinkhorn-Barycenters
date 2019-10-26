@@ -47,14 +47,13 @@ $ python experiments/ellipses.py
 **Output** in folder `out/ellipses`
 
 
- 
+<a name='continuous-measures'></a>
 
-<p>
+## Continuous Measures: Barycenter of Gaussian Distributions (Coming Soon)
+
 <img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss1.png" width="20%">
-<p>
-<p>
+
 <img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss2.png" width="20%">
-</p>
 
 We compute the barycenter of 5 Gaussian distributions with mean and covariance matrix randomly generated. We apply to empirical measures obtained by sampling n = 500 points from each one. Since the (Wasserstein) barycenter of Gaussian distributions can be estimated accurately [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf) (see [(Agueh and Carlier 2011)](https://www.ceremade.dauphine.fr/~carlier/AC_bary_Aug11_10.pdf)), in the figure we report both the output of the proposed algorithm (as a scatter plot) and the true Wasserstein barycenter (as level sets of its density). We observe that our estimator recovers both the mean and covariance of the target barycenter. 
 
