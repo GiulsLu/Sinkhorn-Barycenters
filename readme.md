@@ -1,8 +1,8 @@
 # Free-Support Sinkhorn Barycenters
 
-This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](https://arxiv.org/pdf/1905.13194.pdf) 
-by [Giulia Luise](https://giulslu.github.io), [Saverio Salzo](https://scholar.google.it/citations?user=zocrDQkAAAAJ&hl=en), [Massimiliano Pontil]() and [Carlo Ciliberto](https://cciliber.github.io) 
-published at [Neural Information Processing Systems (NeurIPS) 2019](https://neurips.cc/), by providing an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf). 
+This repository complements the paper [Sinkhorn Barycenters with Free Support via Frank-Wolfe Algorithm](https://arxiv.org/pdf/1905.13194.pdf)
+by [Giulia Luise](https://giulslu.github.io), [Saverio Salzo](https://scholar.google.it/citations?user=zocrDQkAAAAJ&hl=en), [Massimiliano Pontil]() and [Carlo Ciliberto](https://cciliber.github.io)
+published at [Neural Information Processing Systems (NeurIPS) 2019](https://neurips.cc/), by providing an implementation of the proposed algorithm to compute the Barycenter of multiple probability measures with respect to the [Sinkhorn Divergence](https://arxiv.org/pdf/1706.00292.pdf).
 
 Slides can be found [here](https://giulslu.github.io/Sinkhorn-Barycenters/slides/sinkhorn-barycenters-via-frank-wolfe.pdf).
 
@@ -12,6 +12,11 @@ Slides can be found [here](https://giulslu.github.io/Sinkhorn-Barycenters/slides
 Below we provide the code and instructions to reproduce most of the experiments in the paper. We recommend running all experiments on GPU.  
 
 
+### Installation
+**Run:**
+```sh
+$ python setup.py develop
+```
 
 
 ### List of Experiments
@@ -44,12 +49,12 @@ We compute the barycenter of 30 randomly generated nested ellipses on a 50 × 50
 
 <img align='right' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/nested_ellipses.gif" width="20%">
 
-**Run:** 
+**Run:**
 ```sh
 $ python experiments/ellipses.py
 ```
 
-**Output** in folder `out/ellipses`
+**Output** in folder `experiments/data/ellipses/output`
 
 
 <a name='continuous-measures'></a>
@@ -60,7 +65,7 @@ $ python experiments/ellipses.py
 
 <img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/gauss2.png" width="20%">
 
-We compute the barycenter of 5 Gaussian distributions with mean and covariance matrix randomly generated. We apply to empirical measures obtained by sampling n = 500 points from each one. Since the (Wasserstein) barycenter of Gaussian distributions can be estimated accurately [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf) (see [(Agueh and Carlier 2011)](https://www.ceremade.dauphine.fr/~carlier/AC_bary_Aug11_10.pdf)), in the figure we report both the output of the proposed algorithm (as a scatter plot) and the true Wasserstein barycenter (as level sets of its density). We observe that our estimator recovers both the mean and covariance of the target barycenter. 
+We compute the barycenter of 5 Gaussian distributions with mean and covariance matrix randomly generated. We apply to empirical measures obtained by sampling n = 500 points from each one. Since the (Wasserstein) barycenter of Gaussian distributions can be estimated accurately [(Cuturi and Doucet 2014)](https://arxiv.org/pdf/1310.4375.pdf) (see [(Agueh and Carlier 2011)](https://www.ceremade.dauphine.fr/~carlier/AC_bary_Aug11_10.pdf)), in the figure we report both the output of the proposed algorithm (as a scatter plot) and the true Wasserstein barycenter (as level sets of its density). We observe that our estimator recovers both the mean and covariance of the target barycenter.
 
 
 
@@ -69,7 +74,7 @@ We compute the barycenter of 5 Gaussian distributions with mean and covariance m
 $ python experiments/gaussians.py
 ```
 
-**Output** in folder `out/gaussians`
+**Output** in folder `experiments/data/gaussians/output`
 
 Instructions for additional experiments and parameters can be found directly in the file `experiments/gaussians.py`.
 
@@ -82,20 +87,20 @@ Instructions for additional experiments and parameters can be found directly in 
 
 
 
-Similarly to [(Claici et al. 2018)](https://arxiv.org/pdf/1802.05757.pdf), we test the proposed algorithm in the special case where we are computing the “barycenter” of a single measure (rather than multiple ones). While the solution of this problem is the input distribution itself, we can interpret the intermediate iterates the proposed algorithm as compressed version of the original measure. In this sense the iteration number `k` represents the level of compression since the corresponding barycenter estimate is supported on at most `k` points. The figure (Right) reports iteration `k` = 5000 for the proposed algorithm applied to the 140 × 140 image in (Left) interpreted as a probability measure in 2D. We note that the number of points in the support is ∼3900: the most relevant support points are selected multiple times to accumulate the right amount of mass on each of them (darker color = higher weight). This shows that the proposed approach tends to greedily search for the most relevant support points, prioritizing those with higher weight. 
+Similarly to [(Claici et al. 2018)](https://arxiv.org/pdf/1802.05757.pdf), we test the proposed algorithm in the special case where we are computing the “barycenter” of a single measure (rather than multiple ones). While the solution of this problem is the input distribution itself, we can interpret the intermediate iterates the proposed algorithm as compressed version of the original measure. In this sense the iteration number `k` represents the level of compression since the corresponding barycenter estimate is supported on at most `k` points. The figure (Right) reports iteration `k` = 5000 for the proposed algorithm applied to the 140 × 140 image in (Left) interpreted as a probability measure in 2D. We note that the number of points in the support is ∼3900: the most relevant support points are selected multiple times to accumulate the right amount of mass on each of them (darker color = higher weight). This shows that the proposed approach tends to greedily search for the most relevant support points, prioritizing those with higher weight.
 
 **Run:**
 ```sh
 $ python experiments/matching.py
 ```
 
-**Output** in folder `out/matching`
+**Output** in folder `experiments/data/matching/output`
 
-The code can be run with any image by passing the path to the desired image as additional argument. 
+The code can be run with any image by passing the path to the desired image as additional argument.
 
 
 <a name='k-means'></a>
-## Sinkhorn k-Means Clustering 
+## Sinkhorn k-Means Clustering
 
 <img align='left' style='' src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/git_images/kmeans.png" width="30%">
 
@@ -106,7 +111,7 @@ We test the proposed algorithm on a k-means clustering experiment. We consider a
 $ python experiments/kmeans.py
 ```
 
-**Output** in folder `out/kmeans`
+**Output** in folder `experiments/data/kmeans/output`
 
 
 
@@ -121,7 +126,7 @@ $ python experiments/kmeans.py
 
 
 
-We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by *propagating* measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional 
+We consider the problem of Sinkhorn propagation similar to the Wasserstein propagation in [(Solomon et al. 2014)](http://proceedings.mlr.press/v32/solomon14.pdf). The goal is to predict the distribution of missing measurements for weather stations in the state of Texas, US (data from [National Climatic Weather Data](http://tiny.cc/0p2o7y)) by *propagating* measurements from neighboring stations in the network. The problem can be formulated as minimizing the functional
 
 
 <p align='center'>
@@ -136,7 +141,7 @@ over the set <img src="https://giulslu.github.io/Sinkhorn-Barycenters/git_data/s
 $ python experiments/propagation.py
 ```
 
-**Output** in folder `out/propagation`
+**Output** in folder `experiments/data/propagation/output`
 
 
 
