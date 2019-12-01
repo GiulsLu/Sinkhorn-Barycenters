@@ -3,7 +3,10 @@ import torch
 from otbar import Distribution
 
 
-def testDistributions():
+torch.set_default_tensor_type(torch.DoubleTensor)
+
+
+def test_distributions():
 
     # generate a distribution with three points
     mu_support = torch.tensor([[1., 2.], [-3., 4.], [5., 9.]])

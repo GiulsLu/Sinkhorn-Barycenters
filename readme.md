@@ -18,6 +18,13 @@ Below we provide the code and instructions to reproduce most of the experiments 
 $ python setup.py develop
 ```
 
+Check that everything works as expected:
+
+**Run:**
+```sh
+$ pytest otbar
+```
+
 
 ### List of Experiments
 - [Nested Ellipses](#ellipses)
