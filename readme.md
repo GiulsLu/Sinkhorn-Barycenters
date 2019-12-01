@@ -13,6 +13,16 @@ Below we provide the code and instructions to reproduce most of the experiments 
 
 
 ### Installation
+All dependencies are in `environment.yml`. You may want to create
+an environement using:
+
+**Run:**
+```sh
+$ conda env create --file environment.yml
+$ conda activate otbar-env
+```
+And then:
+
 **Run:**
 ```sh
 $ python setup.py develop
