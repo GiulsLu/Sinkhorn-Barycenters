@@ -1,12 +1,12 @@
 import torch
-#import pyro
+# import pyro
 import seaborn as sns
 import numpy as np
 import time
 import scipy
 import scipy.linalg as sla
-from utils import *
-#from plot_utils import *
+from otbar.utils import *
+# from plot_utils import *
 torch.set_default_tensor_type(torch.DoubleTensor)
 from optimizers import *
 from utils_glob_divergences.sinkhorn_balanced import *

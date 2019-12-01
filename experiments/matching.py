@@ -1,43 +1,31 @@
-
-
-
-
-
 import torch
-torch.set_default_tensor_type(torch.DoubleTensor)
+import time
+import numpy as np
 
+import os.path as op
 import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
+from otbar.utils import plot
+from otbar import Distribution, GridBarycenter
 
 from PIL import Image
 
-import time
-import pickle
+matplotlib.use("TkAgg")
 
-import numpy as np
-
-
-import os
-import sys
-
-script_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(script_path,'..'))
-
-from utils.plot_utils import plot
-from Distribution.Distribution import Distribution
-from Barycenter.GridBarycenter import GridBarycenter
+from matplotlib import pyplot as plt
 
 
-data_path = os.path.join(script_path,'..','data','matching','cheetah.jpg')
-save_path = os.path.join(script_path,'..','out','matching')
+torch.set_default_tensor_type(torch.DoubleTensor)
+
+data_path = 'data/matching'
+save_path = op.join(data_path, 'output')
+cheetah_fname = op.join(data_path, 'cheetah.jpg')
 
 
 im_size = 100
 
 # load and resize image
-img = Image.open(data_path)
-img.thumbnail((im_size,im_size), Image.ANTIALIAS)  # resizes image in-place
+img = Image.open(cheetah_fname)
+img.thumbnail((im_size, im_size), Image.ANTIALIAS)  # resizes image in-place
 # imgplot = plt.imshow(img)
 
 pix = np.array(img)
@@ -48,7 +36,7 @@ pix = 255 - pix[0:min_side, 0:min_side]
 # visualize and save the resized original image
 try:
     imgplot = plt.imshow(img)
-    plt.savefig(os.path.join(save_path,'original.png'))
+    plt.savefig(op.join(save_path, 'original.png'))
     plt.pause(0.1)
 finally:
     pass
@@ -69,7 +57,7 @@ weights = []
 pix_arr = pix[:, :, 0].reshape(pix.shape[0] ** 2)
 for i in range(n):
     if pix_arr[i] > 50:
-        y1.append(torch.tensor([Y1[i],MX- X1[i]]))
+        y1.append(torch.tensor([Y1[i], MX - X1[i]]))
         weights.append(torch.tensor(pix_arr[i], dtype=torch.float32))
 
 nu1t = torch.stack(y1)
@@ -80,11 +68,11 @@ weights_meas = [w1]
 
 
 # create the list of "distributions" of which we will compute the barycenter
-distributions = [Distribution(nu1t,w1)]
+distributions = [Distribution(nu1t, w1)]
 
 
 # barycenter initialization
-init = torch.Tensor([0.5, 0.5]).view(1,-1)
+init = torch.Tensor([0.5, 0.5]).view(1, -1)
 # init = Distribution(torch.rand(100,2)).normalize()
 
 init_bary = Distribution(init).normalize()
@@ -95,10 +83,10 @@ eps = 0.005
 support_budget = total_iter + 100
 grid_step = 100
 
-grid_step = min(grid_step,im_size)
+grid_step = min(grid_step, im_size)
 
-bary = GridBarycenter(distributions, init_bary, support_budget = support_budget,\
-                      grid_step = grid_step, eps=eps)
+bary = GridBarycenter(distributions, init_bary, support_budget=support_budget,
+                      grid_step=grid_step, eps=eps)
 
 
 n_iter_per_loop = 200
@@ -115,21 +103,17 @@ for i in range(num_meta_fw_steps):
     bary.performFrankWolfe(n_iter_per_loop)
     t1 = time.time() - t1
 
-
-    ### DEBUG FOR PRINTING
-    print('Iter: ',(i+1)*n_iter_per_loop,'/',total_iter)
+    # DEBUGGING
+    print('Iter: ', (i + 1)*n_iter_per_loop, '/', total_iter)
     print('n support points', bary.bary.support_size)
-    print('Time for ', n_iter_per_loop,' FW iterations:', t1)
+    print('Time for ', n_iter_per_loop, 'FW iterations:', t1)
     print('')
 
-
-
-    plot(bary.bary.support.cpu(), bary.bary.weights.cpu(),\
+    plot(bary.bary.support.cpu(), bary.bary.weights.cpu(),
          bins=im_size, thresh=bary.bary.weights.min().item())
     try:
         plt.pause(0.1)
     finally:
         pass
 
-    plt.savefig(os.path.join(save_path, 'barycenter_{}.png'.format(i)))
-
+    plt.savefig(op.join(save_path, 'barycenter_{}.png'.format(i)))

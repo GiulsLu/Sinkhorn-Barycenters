@@ -1,33 +1,27 @@
-
 import torch
-torch.set_default_tensor_type(torch.DoubleTensor)
-
-import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
-
 import time
 import pickle
 
-import os
-import sys
+import os.path as op
+import matplotlib
 
-script_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(script_path,'..'))
+from otbar.utils import plot
+from otbar import Distribution, GridBarycenter
 
-from utils.plot_utils import plot
-from Distribution.Distribution import Distribution
-from Barycenter.GridBarycenter import GridBarycenter
+matplotlib.use("TkAgg")
 
-
+from matplotlib import pyplot as plt
 
 
-data_path = os.path.join(script_path,'..','data','ellipses','ellipses.pckl')
-save_path = os.path.join(script_path,'..','out','ellipses')
+torch.set_default_tensor_type(torch.DoubleTensor)
+
+data_path = 'data/ellipses'
+save_path = op.join(data_path, 'output')
+ellipses_fname = op.join(data_path, 'Ellipses.pkl')
 
 
 # Load the file containing the ellipses support and weights
-pkl_file = open(data_path, 'rb')
+pkl_file = open(ellipses_fname, 'rb')
 D = pickle.load(pkl_file)
 pkl_file.close()
 pre_supp = D['support']
@@ -49,7 +43,7 @@ for i in range(len(pre_supp)):
     supp_meas.append(supp)
     weights = (1 / pre_supp[i].shape[0]) * torch.ones(pre_supp[i].shape[0], 1)
     weights_meas.append(weights)
-    distributions.append(Distribution(supp,weights))
+    distributions.append(Distribution(supp, weights))
 
 
 init_bary = Distribution(torch.rand(10, 2)).normalize()
@@ -62,24 +56,27 @@ grid_step = 50
 
 support_budget = total_iter + 100
 
-bary = GridBarycenter(distributions, init_bary, support_budget = support_budget,\
-                      grid_step = grid_step, eps=eps)
+bary = GridBarycenter(distributions, init_bary, support_budget=support_budget,
+                      grid_step=grid_step, eps=eps)
 
 save_every_n_iter = 1
 num_fw_steps = 10
-num_meta_fw_steps = int(total_iter/num_fw_steps)
+num_meta_fw_steps = int(total_iter / num_fw_steps)
 
 for i in range(num_meta_fw_steps):
     t1 = time.time()
     bary.performFrankWolfe(num_fw_steps)
     t1 = time.time() - t1
 
-    print('Iter:',(i+1)*num_fw_steps,'/',total_iter,'  Time for ',num_fw_steps,' FW iterations:', t1)
+    print('Iter:',
+          (i + 1) * num_fw_steps, '/', total_iter, 'Time for ',
+          num_fw_steps, 'FW iterations:', t1)
 
     if i % save_every_n_iter == 0:
         plot(bary.bary.support, bary.bary.weights)
 
-        plt.savefig(os.path.join(save_path,'barycenter_{}.png'.format(i*num_fw_steps)))
+        plt.savefig(op.join(save_path,
+                            'barycenter_{}.png'.format(i*num_fw_steps)))
 
         try:
             plt.pause(0.01)
@@ -88,10 +85,4 @@ for i in range(num_meta_fw_steps):
 
 
 plot(bary.bary.support, bary.bary.weights)
-plt.savefig(os.path.join(save_path, 'barycenter_end.png'))
-
-try:
-    plt.pause(0.01)
-finally:
-    pass
-
+plt.savefig(op.join(save_path, 'barycenter_end.png'))
