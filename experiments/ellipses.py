@@ -10,8 +10,8 @@ from otbar import Distribution, GridBarycenter
 
 matplotlib.use("TkAgg")
 
-from matplotlib import pyplot as plt
 
+from matplotlib import pyplot as plt
 
 torch.set_default_tensor_type(torch.DoubleTensor)
 
@@ -59,29 +59,12 @@ support_budget = total_iter + 100
 bary = GridBarycenter(distributions, init_bary, support_budget=support_budget,
                       grid_step=grid_step, eps=eps)
 
-save_every_n_iter = 1
 num_fw_steps = 10
 num_meta_fw_steps = int(total_iter / num_fw_steps)
 
 for i in range(num_meta_fw_steps):
-    t1 = time.time()
     bary.performFrankWolfe(num_fw_steps)
-    t1 = time.time() - t1
-
-    print('Iter:',
-          (i + 1) * num_fw_steps, '/', total_iter, 'Time for ',
-          num_fw_steps, 'FW iterations:', t1)
-
-    if i % save_every_n_iter == 0:
-        plot(bary.bary.support, bary.bary.weights)
-
-        plt.savefig(op.join(save_path,
-                            'barycenter_{}.png'.format(i*num_fw_steps)))
-
-        try:
-            plt.pause(0.01)
-        finally:
-            pass
+    plot(bary.bary.support, bary.bary.weights)
 
 
 plot(bary.bary.support, bary.bary.weights)

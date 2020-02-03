@@ -24,10 +24,11 @@ class Distribution:
         with small weight (default 0.001)
 
     """
-    def __init__(self, support, weights=torch.tensor([]),
+    def __init__(self, support, weights=None,
                  max_support_size=1000, has_budget=True,
-                 do_replace=True):
-
+                 do_replace=True, device="cpu"):
+        if weights is None:
+            weights = torch.tensor([], device=device)
         # get pointers to the actual support and weights torch tensors
         # if the variable support is actually a Distribution, we copy it
         if isinstance(support, Distribution):
@@ -42,9 +43,10 @@ class Distribution:
         self.max_support_size = max(tmp_support.size(0), max_support_size)
 
         # create the tensors for the full support and weights
-        self._full_support = torch.empty(self.max_support_size,
-                                         tmp_support.size(1))
-        self._full_weights = torch.zeros(self.max_support_size, 1)
+        self._full_support = torch.empty((self.max_support_size,
+                                         tmp_support.size(1)), device=device)
+        self._full_weights = torch.zeros((self.max_support_size, 1),
+                                         device=device)
 
         # the current support index identifies up to where we have filled
         # the support tensor
