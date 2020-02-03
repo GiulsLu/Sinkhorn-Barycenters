@@ -16,7 +16,7 @@ class Barycenter:
     """Abstract class for barycenter computation."""
 
     def __init__(self, distributions, bary=None,
-                 eps=0.1, mixing_weights=None,
+                 eps=0.1, mixing_weights=None, log_domain=True,
                  support_budget=100, sinkhorn_tol=1e-3,
                  sinkhorn_n_itr=100, **params):
 
@@ -24,6 +24,7 @@ class Barycenter:
 
         # basic variables
         self.eps = eps
+        self.log_domain = log_domain
         self.support_budget = support_budget
 
         self.sinkhorn_tol = sinkhorn_tol
@@ -180,6 +181,9 @@ class Barycenter:
         if x_new.size(0) != self.bary.support_size:
             C_bary_t = dist_matrix(x_new, bary_supp).t()
             self.Cxx[:, idx:idx + x_new.size(0)].copy_(C_bary_t / self.eps)
+        self.Kxx = torch.exp(- self.Cxx / self.eps)
+        self.Kxy = torch.exp(- self.Cxy / self.eps)
+        self.Kxy_list = [torch.exp(- cc / self.eps) for cc in self.Cxy_list]
 
     # whenever a new point is added to the bary support,
     # we need to update the shape of the tensors containing the potentials
@@ -214,6 +218,12 @@ class Barycenter:
     # evaluate sinkhorn for the current barycenter and all distributions
     # code adapted from https://github.com/jeanfeydy/global-divergences
     def _computeSinkhorn(self):
+        if self.log_domain:
+            return self._run_log_domain_sinkhorn()
+        else:
+            return self._run_sinkhorn()
+
+    def _run_log_domain_sinkhorn(self):
 
         # we repeat the weight vector for the barycenter for each distribution
         α_log = self.bary.weights.log()
@@ -295,9 +305,107 @@ class Barycenter:
 
         return A, B
 
+    def _run_sinkhorn(self):
+
+        # we repeat the weight vector for the barycenter for each distribution
+        α = self.bary.weights
+        β = self.full_weights
+
+        A = self.potential_distributions
+        B = self.potential_bary
+
+        # the iterations are performed for the potentials u/eps v/eps
+        # we will multiply it back at the end of the Sinkhorn computation
+        A.mul_(1 / self.eps)
+        B.mul_(1 / self.eps)
+
+        F = torch.exp(A)
+        G = torch.exp(B)
+
+        F_prev = torch.ones_like(F)
+
+        # create list of pointers
+        B_list = [B[(i * self.bary.support_size):((i + 1) *
+                    self.bary.support_size), :]
+                  for i in range(self.num_distributions)]
+        # create list of pointers
+        G_list = [G[(i * self.bary.support_size):((i + 1) *
+                    self.bary.support_size), :]
+                  for i in range(self.num_distributions)]
+
+        Kxy = self.Kxy
+        Kxy_list = self.Kxy_list
+        tmpK = torch.ones_like(Kxy)
+
+        # create list of pointers to the temporary matrix M
+        sl_idx = self.support_location_indices
+        tmpK_list = [tmpK[:, sl_idx[i]:sl_idx[i + 1]]
+                     for i in range(self.num_distributions)]
+
+        perform_last_step = False
+
+        for idx_itr in range(self.sinkhorn_n_itr):
+
+            F_prev.copy_(F)
+
+            # tmpM.copy_((A + β_log).view(1, -1) - Cxy)
+            tmpK.copy_((F * β).view(1, -1) * Kxy)
+            for idx_nu in range(self.num_distributions):
+                G_list[idx_nu].copy_(1. / tmpK_list[idx_nu].sum(dim=1).view(-1, 1))
+
+            # add alpha log (in place)
+            for idx_nu in range(self.num_distributions):
+                tmpK_list[idx_nu].copy_(G_list[idx_nu] *
+                                        α * Kxy_list[idx_nu])
+
+            F.copy_(1. / (tmpK.t().sum(1).view(-1, 1)))
+
+            if perform_last_step:
+                break
+
+            err = self.eps * (F - F_prev).abs().mean()
+            # Stopping criterion: L1 norm of the updates
+            if self.num_distributions*err.item() < self.sinkhorn_tol:
+                perform_last_step = True
+
+        A = torch.log(F)
+        B = torch.log(G)
+
+        A.mul_(self.eps)
+        B.mul_(self.eps)
+
+        # compute the sinkhorn functional OTe(alpha,beta)
+        tmp_func_val = 0
+        for idx_nu in range(self.num_distributions):
+
+            inner_tmp_func_val = 0
+
+            a = A[sl_idx[idx_nu]:sl_idx[idx_nu+1], :].view(-1)
+            s_a = self.full_weights[sl_idx[idx_nu]:sl_idx[idx_nu + 1], :]
+            s_a = s_a.view(-1)
+            inner_tmp_func_val = inner_tmp_func_val + torch.dot(a, s_a)
+
+            b = B_list[idx_nu].view(-1)
+
+            inner_tmp_func_val = inner_tmp_func_val + \
+                torch.dot(b, self.bary.weights.view(-1))
+
+            tmp_func_val = tmp_func_val + \
+                self.mixing_weights[idx_nu] * inner_tmp_func_val
+
+        self.func_val.append(tmp_func_val.item())
+
+        return A, B
+
+    def _computeSymSinkhorn(self):
+        if self.log_domain:
+            return self._run_log_domain_symsinkhorn()
+        else:
+            return self._run_symsinkhorn()
+
     # Compute OTe(alpha,alpha)
     # code adapted from https://github.com/jeanfeydy/global-divergences
-    def _computeSymSinkhorn(self):
+    def _run_log_domain_symsinkhorn(self):
 
         α_log = self.bary.weights.log()
         A = self.potential_bary_sym
@@ -323,6 +431,42 @@ class Barycenter:
         A.copy_(- lse((A + α_log).view(1, -1) - self.Cxx))
         # a(x) = Smin_e,z~α [ C(x,z) - a(z) ]
 
+        A.mul_(self.eps)
+
+        tmp_func_val = self.mixing_weights.sum() *\
+            torch.dot(A.view(-1), self.bary.weights.view(-1))
+        self.func_val[-1] = self.func_val[-1] - tmp_func_val.item()
+
+        return A
+
+    def _run_symsinkhorn(self):
+
+        α = self.bary.weights
+        A = self.potential_bary_sym
+
+        # the iterations are performed for the potentials u/eps v/eps
+        # we will multiply it back at the end of the Sinkhorn computation
+        A.mul_(1 / self.eps)
+
+        F = torch.exp(A)
+        F_prev = torch.ones_like(F)
+
+        for idx_itr in range(self.sinkhorn_n_itr):
+
+            F_prev.copy_(F)
+
+            denom = ((F * α).view(1, -1) * self.Kxx).sum(dim=1).view(-1, 1)
+            F.copy_((F / denom) ** 0.5)
+            # a(x)/ε = .5*(a(x)/ε + Smin_ε,y~α [ C(x,y) - a(y) ] / ε)
+
+            err = self.eps * (F - F_prev).abs().mean()
+            # Stopping criterion: L1 norm of the updates
+            if err.item() < self.sinkhorn_tol:
+                break
+
+        F.copy_(1. / ((F * α).view(1, -1) * self.Kxx).sum(dim=1).view(-1, 1))
+        # a(x) = Smin_e,z~α [ C(x,z) - a(z) ]
+        A = torch.log(F)
         A.mul_(self.eps)
 
         tmp_func_val = self.mixing_weights.sum() *\

@@ -27,10 +27,8 @@ class GridBarycenter(Barycenter):
 
             self.meshgrid = torch.cat([mesh_column.reshape(-1, 1) for
                                       mesh_column in tmp_meshgrid], dim=1)
-            print("yes in", self.meshgrid)
         else:
             self.meshgrid = grid
-            print(self.meshgrid)
     # overload of the init distance matrices method of standard barycenter
     # to account for the meshgrid
     def _initDistanceMatrices(self):
