@@ -195,7 +195,7 @@ class Barycenter:
         # maximum size (budget)
         if self.bary.support_size > self.potential_bary_sym.size(0):
             bary_size = self.bary.support_size * self.num_distributions
-            tmp_potential_bary = torch.zeros(bary_size, 1)
+            tmp_potential_bary = torch.zeros(bary_size, 1, device=self.device)
             for k in range(self.num_distributions):
                 idx_pre = self.bary.support_size * k
                 idx_next = self.bary.support_size * (k+1) - 1
@@ -254,7 +254,6 @@ class Barycenter:
                      for i in range(self.num_distributions)]
 
         perform_last_step = False
-
 
         for idx_itr in range(self.sinkhorn_n_itr):
 
