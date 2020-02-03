@@ -254,6 +254,9 @@ class Barycenter:
                      for i in range(self.num_distributions)]
 
         perform_last_step = False
+        print(α_log.device)
+        print(Cxy_list[0].device)
+        print(B_list[0].device)
 
         for idx_itr in range(self.sinkhorn_n_itr):
 
