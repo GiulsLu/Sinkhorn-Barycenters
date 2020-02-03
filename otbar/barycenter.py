@@ -342,7 +342,6 @@ class Barycenter:
 
     def currentRho(self):
         rho = torch.tensor([float(self.current_iteration)]).pow(1).item()
-        rho = rho.to(self.device)
         return 1 / (1 + rho)
 
     # perform a single step of the Frank Wolfe algorithm
