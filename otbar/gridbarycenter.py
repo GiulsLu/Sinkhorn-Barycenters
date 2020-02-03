@@ -19,7 +19,8 @@ class GridBarycenter(Barycenter):
                                        self.min_max_range[1, i]+margin[i],
                                        ((self.min_max_range[1, i] -
                                          self.min_max_range[0, i]).abs() +
-                                        2 * margin[i]) / grid_step)
+                                        2 * margin[i]) / grid_step,
+                                       device=self.device)
                           for i in range(self.d)]
 
             tmp_meshgrid = torch.meshgrid(*tmp_ranges)
