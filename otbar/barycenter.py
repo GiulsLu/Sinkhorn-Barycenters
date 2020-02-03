@@ -136,7 +136,7 @@ class Barycenter:
         # we store the potentials for all sinkhorn computations of
         # all distributions against the current barycenter estimate
         bary_size = self.bary.support_size * self.num_distributions
-        self.potential_bary = torch.zeros(bary_size, 1)
+        self.potential_bary = torch.zeros(bary_size, 1, device=self.device)
 
         # the potential for the OT(alpha,alpha)
         self.potential_bary_sym = torch.zeros((self.bary.support_size, 1),
@@ -254,9 +254,7 @@ class Barycenter:
                      for i in range(self.num_distributions)]
 
         perform_last_step = False
-        print(α_log.device)
-        print(Cxy_list[0].device)
-        print(B_list[0].device)
+
 
         for idx_itr in range(self.sinkhorn_n_itr):
 
