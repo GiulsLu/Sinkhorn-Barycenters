@@ -20,6 +20,8 @@ class Barycenter:
                  support_budget=100, sinkhorn_tol=1e-3,
                  sinkhorn_n_itr=100, **params):
 
+        self.device = distributions[0].support.device
+
         # basic variables
         self.eps = eps
         self.support_budget = support_budget
@@ -32,15 +34,15 @@ class Barycenter:
         # current iteration of FW
         self.current_iteration = 1
 
-        # store the information about the distributions
-        self._storeDistributions(distributions)
-        self.device = distributions[0].support.device
-        if bary is None:
-            bary = torch.tensor([0.], device=self.device)
         if mixing_weights is None:
             mixing_weights = torch.tensor([0.], device=self.device)
         # the weights for each distribution
         self.mixing_weights = mixing_weights.clone().detach()
+        # store the information about the distributions
+        self._storeDistributions(distributions)
+        if bary is None:
+            bary = torch.tensor([0.], device=self.device)
+
         # initialize the barycenter
         self._initBary(bary)
 
