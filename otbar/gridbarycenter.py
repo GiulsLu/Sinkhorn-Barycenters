@@ -78,7 +78,7 @@ class GridBarycenter(Barycenter):
         tmpM_list = [tmpM[:, sl_idx[k]:sl_idx[k + 1]]
                      for k in range(self.num_distributions)]
 
-        V = torch.ones(self.meshgrid.size(0), 1)
+        V = torch.ones(self.meshgrid.size(0), 1, device=self.device)
         Vmax = torch.zeros(self.meshgrid.size(0), 1, device=self.device)
         for k in range(self.num_distributions):
 
