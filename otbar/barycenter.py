@@ -15,8 +15,8 @@ def _startingBary(distributions, min_max_range):
 class Barycenter:
     """Abstract class for barycenter computation."""
 
-    def __init__(self, distributions, bary=torch.empty(0),
-                 eps=0.1, mixing_weights=torch.empty(0),
+    def __init__(self, distributions, bary=None,
+                 eps=0.1, mixing_weights=None,
                  support_budget=100, sinkhorn_tol=1e-3,
                  sinkhorn_n_itr=100, **params):
 
@@ -32,12 +32,15 @@ class Barycenter:
         # current iteration of FW
         self.current_iteration = 1
 
-        # the weights for each distribution
-        self.mixing_weights = mixing_weights.clone().detach()
-
         # store the information about the distributions
         self._storeDistributions(distributions)
-
+        self.device = distributions[0].support.device
+        if bary is None:
+            bary = torch.tensor([0.], device=self.device)
+        if mixing_weights is None:
+            mixing_weights = torch.tensor([0.], device=self.device)
+        # the weights for each distribution
+        self.mixing_weights = mixing_weights.clone().detach()
         # initialize the barycenter
         self._initBary(bary)
 
@@ -73,7 +76,8 @@ class Barycenter:
         # then normalize to have all the weights sum to one
         w_size = self.mixing_weights.size(0)
         if (w_size == 0 or w_size != self.num_distributions):
-            self.mixing_weights = torch.ones(self.num_distributions) * \
+            self.mixing_weights = torch.ones(self.num_distributions,
+                                             device=self.device) * \
                     (1.0/self.num_distributions)
 
         # if some weight is negative, throw an error
@@ -89,13 +93,14 @@ class Barycenter:
         self.min_max_range = torch.cat((row_min, row_max), dim=1).t()
 
         # list of support sizes
-        support_pts = torch.tensor([nu.support_size for nu in distributions])
+        support_pts = torch.tensor([nu.support_size for nu in distributions],
+                                   device=self.device)
         self.support_number_points = support_pts
 
         # indices to recover the support points (we start with a leading 0 for
         # the first position)
-        support_indx = torch.cat([torch.tensor([0]),
-                                 self.support_number_points.cumsum(dim=0)])
+        support_indx = torch.cat([torch.tensor([0], device=self.device),
+                                 self.support_number_points.cumsum(dim=0)],)
         self.support_location_indices = support_indx
 
         self.potential_distributions = torch.zeros_like(self.full_weights)
@@ -109,7 +114,8 @@ class Barycenter:
             diff_max_min = self.min_max_range[1] - self.min_max_range[0]
 
             # Distribution class wants support tensors n x d
-            bary = torch.rand(1, self.d)*diff_max_min + self.min_max_range[0]
+            bary = torch.rand(1, self.d, device=self.device)
+            bary = bary * diff_max_min + self.min_max_range[0]
 
             bary_full_size = self.support_budget
         else:
@@ -118,9 +124,10 @@ class Barycenter:
             # bary_full_size = bary.support_size + self.niter
             bary_full_size = max(bary.support_size, self.support_budget)
 
-        self.bary = Distribution(bary, max_support_size=bary_full_size)
+        self.bary = Distribution(bary, max_support_size=bary_full_size,
+                                 device=self.device)
 
-        self.best_bary = Distribution(bary)
+        self.best_bary = Distribution(bary, device=self.device)
         self.best_func_val = -1
 
         # we store the potentials for all sinkhorn computations of
@@ -129,7 +136,8 @@ class Barycenter:
         self.potential_bary = torch.zeros(bary_size, 1)
 
         # the potential for the OT(alpha,alpha)
-        self.potential_bary_sym = torch.zeros(self.bary.support_size, 1)
+        self.potential_bary_sym = torch.zeros((self.bary.support_size, 1),
+                                              device=self.device)
 
     # initializes the big matrix containing all distances
     def _initDistanceMatrices(self):
@@ -137,8 +145,9 @@ class Barycenter:
         x_max_size = self.bary.max_support_size
 
         # big matirx containing support_bary x full_support + support_bary
-        self._bigC = torch.empty(x_max_size,
-                                 self.full_support.size(0) + x_max_size)
+        self._bigC = torch.empty((x_max_size,
+                                  self.full_support.size(0) + x_max_size),
+                                 device=self.device)
         self._updateDistanceMatrices(self.bary.support, 0)
 
     # updates the pointers (views) of all distribution-vs-bary distances
@@ -194,7 +203,8 @@ class Barycenter:
             self.potential_bary = tmp_potential_bary
 
             # the potential for the OT(alpha,alpha)
-            tmp_potential_bary_sym = torch.empty(self.bary.support_size, 1)
+            tmp_potential_bary_sym = torch.empty(self.bary.support_size, 1,
+                                                 device=self.device)
             tmp_potential_bary_sym[:-1].copy_(self.potential_bary_sym)
             tmp_potential_bary_sym[-1] = 0
             self.potential_bary_sym = tmp_potential_bary_sym
@@ -330,6 +340,7 @@ class Barycenter:
 
     def currentRho(self):
         rho = torch.tensor([float(self.current_iteration)]).pow(1).item()
+        rho = rho.to(self.device)
         return 1 / (1 + rho)
 
     # perform a single step of the Frank Wolfe algorithm

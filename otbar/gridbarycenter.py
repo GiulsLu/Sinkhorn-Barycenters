@@ -41,7 +41,7 @@ class GridBarycenter(Barycenter):
         # y_size = self.full_support.size(0)
 
         # big matirx containing bary vs grid distances
-        self._bigGridC = torch.empty(x_max_size, grid_size)
+        self._bigGridC = torch.empty(x_max_size, grid_size, device=self.device)
 
         # big matirx containing grid vs full support distances
         self.Cgridy = dist_matrix(self.meshgrid, self.full_support) / self.eps
@@ -80,7 +80,7 @@ class GridBarycenter(Barycenter):
                      for k in range(self.num_distributions)]
 
         V = torch.ones(self.meshgrid.size(0), 1)
-        Vmax = torch.zeros(self.meshgrid.size(0), 1)
+        Vmax = torch.zeros(self.meshgrid.size(0), 1, device=self.device)
         for k in range(self.num_distributions):
 
             Vmax_k = torch.max(tmpM_list[k], 1)[0].view(-1, 1)
